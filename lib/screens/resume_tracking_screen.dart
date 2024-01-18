@@ -1,9 +1,13 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_app/controllers/launchPopupScreen.dart';
 import 'package:task_app/controllers/launch_custom_tabs.dart';
 import 'package:task_app/controllers/local_store.dart';
 import 'package:task_app/controllers/show_snackbar.dart';
+import 'package:task_app/firebase_services.dart';
 import 'package:task_app/screens/popup.dart';
 import 'package:task_app/widgets/time_remaining_widget.dart';
 
@@ -16,15 +20,28 @@ class ResumeTrackingScreen extends StatefulWidget {
 
 class _ResumeTrackingScreenState extends State<ResumeTrackingScreen>
     with WidgetsBindingObserver {
+  final FirestoreService _firestoreService = FirestoreService();
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   String seconds = "";
   String type = "";
   String id = "";
 
+  // late String documentId;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  Future<String> getUrlId(String targetUrl) async {
+    var data = await _firestoreService.fetchDocuments();
+    for (var element in data.entries) {
+      if (element.value['url'] == targetUrl) {
+        return element.key;
+      }
+    }
+    return '';
   }
 
   void setPrefs(
@@ -57,14 +74,22 @@ class _ResumeTrackingScreenState extends State<ResumeTrackingScreen>
     } else {
       // after time
       winnerHandle(int.parse(prefs.getString("coin")!));
+      //firebase update field
+      var urlId = await getUrlId(prefs.getString("currentLink")!);
+      await FirebaseFirestore.instance
+          .collection('links')
+          .doc(urlId)
+          .update({'disable': true, 'urllastclicktime': DateTime.now()});
     }
   }
 
   void winnerHandle(int coin) {
     Navigator.pop(context);
-    increaseGameCoin(100);
-    showSnackBar(context, "You Won 100 Coins");
-    launchPopupScreen(context, const PopUp(coins: 100));
+    List<int> winList = [60, 60, 250, 100, 80, 40, 250, 60, 60, 100, 100, 60];
+    int z = Random().nextInt(winList.length);
+    increaseGameCoin(winList[z]);
+    showSnackBar(context, "You Won ${winList[z]} Coins");
+    launchPopupScreen(context, PopUp(coins: winList[z]));
     //launchPopupScreen(context, WinPanelWidget(coins: coin,reason: type,));
   }
 
@@ -101,19 +126,8 @@ class _ResumeTrackingScreenState extends State<ResumeTrackingScreen>
     launchCustomTabURL(link);
   }
 
-  Future getKeys() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var keys = prefs.getKeys();
-    print(keys);
-    if (prefs.containsKey('coin')) {
-      var val = prefs.get('coin');
-      print(val);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    getKeys();
     final routes =
         ModalRoute.of(context)?.settings.arguments as Map<String, String>;
     final link = routes['link'];

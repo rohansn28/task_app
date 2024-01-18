@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 
 class CommonBox extends StatelessWidget {
   final String text;
-  // final String img;
+  final String img1;
   final double width;
   final double top;
   final double width2;
   final String text2;
-  // final String img2;
-  // final String route1, route2;
+  final String img2;
+  final String route1, route2;
   const CommonBox({
     Key? key,
     required this.text,
-    // required this.img,
+    required this.img1,
     required this.width,
     required this.top,
     required this.width2,
     required this.text2,
-    // required this.img2,
-    // required this.route1,
-    // required this.route2,
+    required this.img2,
+    required this.route1,
+    required this.route2,
   }) : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class CommonBox extends StatelessWidget {
               // }else{
               //   Navigator.pushNamed(context, route1);
               // }
-              Navigator.pushNamed(context, '/tasks');
+              Navigator.pushNamed(context, route1);
             },
             child: Container(
               width: MediaQuery.of(context).size.width / 2.5,
@@ -53,11 +53,10 @@ class CommonBox extends StatelessWidget {
                   children: [
                     Container(
                       height: 80,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         //color: Colors.green,
                         image: DecorationImage(
-                            image: AssetImage('assets/task.png'),
-                            fit: BoxFit.contain),
+                            image: AssetImage(img1), fit: BoxFit.contain),
                       ),
                     ),
                     Padding(
@@ -101,7 +100,7 @@ class CommonBox extends StatelessWidget {
               // }else{
               //   Navigator.pushNamed(context, route2);
               // }
-              Navigator.pushNamed(context, '/tasks');
+              Navigator.pushNamed(context, route2);
             },
             child: Container(
               width: MediaQuery.of(context).size.width / 2.5,
@@ -117,11 +116,10 @@ class CommonBox extends StatelessWidget {
                   children: [
                     Container(
                       height: 80,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         //color: Colors.green,
                         image: DecorationImage(
-                            image: AssetImage("assets/task.png"),
-                            fit: BoxFit.contain),
+                            image: AssetImage(img2), fit: BoxFit.contain),
                       ),
                     ),
                     Padding(

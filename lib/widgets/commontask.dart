@@ -1,19 +1,34 @@
 import 'package:flutter/material.dart';
 
-class CommonTask extends StatelessWidget {
-  // final FirestoreService _firestoreService = FirestoreService();
+class CommonTask extends StatefulWidget {
   final double top;
   final int index;
   final String url;
-  const CommonTask(
-      {Key? key, required this.top, required this.index, required this.url})
-      : super(key: key);
+  final String documentId;
+
+  const CommonTask({
+    Key? key,
+    required this.top,
+    required this.index,
+    required this.url,
+    required this.documentId,
+  }) : super(key: key);
+
+  @override
+  State<CommonTask> createState() => _CommonTaskState();
+}
+
+class _CommonTaskState extends State<CommonTask> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       ///reuse
-      padding: EdgeInsets.only(top: top, left: 20, right: 20),
+      padding: EdgeInsets.only(top: widget.top, left: 20, right: 20),
       child: Container(
         height: 110,
         width: 400,
@@ -24,28 +39,26 @@ class CommonTask extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Visit Site and Stay 30 sec & Win 100 Coins Each",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                )),
+            const Text(
+              "Visit Site and Stay 30 sec & Win 100 Coins Each",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 18),
               child: InkWell(
-                onTap: () {
+                onTap: () async {
                   Navigator.pushNamed(context, '/tracking', arguments: {
-                    "link":
-                        url, //otherLinksModel.otherlinks![index].link.toString(),
+                    "link": widget.url,
                     "coin": "50",
                     "seconds": "10",
                     "type": "task",
-                    "id": index.toString()
+                    "id": widget.index.toString(),
                   });
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //     builder: (context) => ResumeTrackingScreen()));
-                  // launchCustomTabURL(taskUrls[index]);
                 },
                 child: Container(
                   height: 40,

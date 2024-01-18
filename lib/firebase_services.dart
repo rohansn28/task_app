@@ -22,4 +22,58 @@ class FirestoreService {
       return [];
     }
   }
+
+  Future<Map<String, Map<String, dynamic>>> fetchDocuments() async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('links').get();
+
+      Map<String, Map<String, dynamic>> tempMap = {};
+
+      querySnapshot.docs.forEach((DocumentSnapshot document) {
+        bool disable = document['disable'];
+        String url = document['url'];
+
+        Map<String, dynamic> documentMap = {
+          'disable': disable,
+          'url': url,
+          // Add other fields as needed
+        };
+
+        tempMap[document.id] = documentMap;
+      });
+      // print(tempMap);
+      return tempMap;
+    } catch (e) {
+      print('Error fetching documents: $e');
+      return {}; // Return an empty map in case of an error
+    }
+  }
+
+  Future<Map<String, Map<String, dynamic>>> bottomNavLinks() async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('bottomnavlinks').get();
+
+      Map<String, Map<String, dynamic>> tempMap = {};
+
+      querySnapshot.docs.forEach((DocumentSnapshot document) {
+        String tag = document['tag'];
+        String url = document['url'];
+
+        Map<String, dynamic> documentMap = {
+          'tag': tag,
+          'url': url,
+          // Add other fields as needed
+        };
+
+        tempMap[document.id] = documentMap;
+      });
+      // print(tempMap);
+      return tempMap;
+    } catch (e) {
+      print('Error fetching documents: $e');
+      return {}; // Return an empty map in case of an error
+    }
+  }
 }

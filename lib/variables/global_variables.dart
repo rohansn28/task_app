@@ -10,6 +10,7 @@ bool objLive = false;
 
 ///for prefs
 String gameCoinsLabel = "gameCoins";
+
 String spinChancesLabel = "spin";
 String scratchChancesLabel = "scratch";
 

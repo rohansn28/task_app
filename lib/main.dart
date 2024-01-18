@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:task_app/firebase_options.dart';
 import 'package:task_app/screens/home_screen.dart';
 import 'package:task_app/screens/resume_tracking_screen.dart';
+import 'package:task_app/screens/scratch.dart';
+import 'package:task_app/screens/spin.dart';
 import 'package:task_app/screens/start_page.dart';
 import 'package:task_app/screens/tasks_screen.dart';
 
@@ -26,14 +28,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
-      // home: const HomeScreen(),
       routes: {
-        // "/": (context) => const HomeScreen(),
-        // "/tracking": (context) => const ResumeTrackingScreen(),
         "/": (context) => const StartPg(),
         "/home": (context) => const HomeScreen(),
         "/tasks": (context) => TasksScreen(),
         "/tracking": (context) => const ResumeTrackingScreen(),
+        "/spin": (context) => const Spin(),
+        "/scratch": (context) => const Scratch(),
       },
     );
   }

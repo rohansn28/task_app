@@ -125,7 +125,10 @@ class TimeRemainingWidget extends StatelessWidget {
                 child: Text(
                   "You need to play for a little more time to win coins for this session!",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                      color: Colors.black),
                 ),
               ),
               Row(
